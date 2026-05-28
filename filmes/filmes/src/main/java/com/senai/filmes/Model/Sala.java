@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.UUID;
 
+//annotashows
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "cSalas")
+@Table(name = "Salas")
 
 public class Sala {
     @Id
@@ -27,7 +28,8 @@ public class Sala {
     private Integer totalAssentos;
 
     //Relacinamento FOREIGN com CASCADE
-    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, orphanRemoval = true)
+    //Para muitos para um é recomendado realizar a entrada do ID da tabela neste código.
+    @OneToMany(mappedBy = "Salas", cascade = CascadeType.ALL, orphanRemoval = true)
 
     private List<Assento> assentos = new ArrayList<>();
 }

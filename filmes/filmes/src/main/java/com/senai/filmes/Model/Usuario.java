@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Usuario {
-
+    //annotashows
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID Id;
