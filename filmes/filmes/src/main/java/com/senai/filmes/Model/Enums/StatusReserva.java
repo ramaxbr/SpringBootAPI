@@ -1,6 +1,6 @@
 package com.senai.filmes.Model.Enums;
 
-public enum Status {
+public enum StatusReserva {
     ATIVADO,
     DESATIVADO;
 }

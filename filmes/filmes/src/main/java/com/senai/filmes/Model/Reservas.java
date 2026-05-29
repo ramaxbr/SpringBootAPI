@@ -1,10 +1,9 @@
 package com.senai.filmes.Model;
 
-import com.senai.filmes.Model.Enums.Status;
+import com.senai.filmes.Model.Enums.StatusReserva;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,12 +23,12 @@ public class Reservas {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
-    @CreationTimestamp
-    private LocalDateTime criadoEm;
 
     @NotBlank(message = "O satus não pode ser em branco")
-    private Status status;
+    private StatusReserva status;
+
+    @CreationTimestamp
+    private LocalDateTime criadoEm;
 
     //Gerar a FOREIGN KEY entre relacionamentos.
     //Para um para muitos é necessário específicar a tabela que irá ser para muitos.
@@ -43,15 +42,8 @@ public class Reservas {
     @JoinColumn(name = "sessao_id")
     private Sessao sessao;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private StatusReserva status;
-
-    @CreationTimestamp
-    private LocalDateTime criadoEm;
-
-    @OneToMany(mappedBy = "Reservas", cascade = CascadeType.ALL, orphanRemoval = true);
-    private List<ReservaAssento> assentos = new ArrayList<>();
+    @OneToMany(mappedBy = "Reservas", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservaAssento> reservaAssentos = new ArrayList<>();
 
 
 
