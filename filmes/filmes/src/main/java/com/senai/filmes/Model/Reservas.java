@@ -42,7 +42,7 @@ public class Reservas {
     @JoinColumn(name = "sessao_id")
     private Sessao sessao;
 
-    @OneToMany(mappedBy = "Reservas", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "reservas", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservaAssento> reservaAssentos = new ArrayList<>();
 
 

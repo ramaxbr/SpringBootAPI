@@ -1,4 +1,4 @@
-package com.senai.filmes.Model.DTO.Response;
+package com.senai.filmes.DTO.Response;
 
 import java.math.BigDecimal;
 import java.util.List;

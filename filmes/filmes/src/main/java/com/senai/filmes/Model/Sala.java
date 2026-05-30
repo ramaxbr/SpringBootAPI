@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 //annotashows
@@ -29,7 +30,6 @@ public class Sala {
 
     //Relacinamento FOREIGN com CASCADE
     //Para muitos para um é recomendado realizar a entrada do ID da tabela neste código.
-    @OneToMany(mappedBy = "Salas", cascade = CascadeType.ALL, orphanRemoval = true)
-
-    private List<Assento> assentos = new ArrayList<>();
+    @OneToMany(mappedBy = "salas", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Assentos> assentos = new ArrayList<>();
 }
