@@ -5,9 +5,12 @@ import com.senai.filmes.DTO.Response.FilmeResponse;
 import com.senai.filmes.Model.Filme;
 import com.senai.filmes.Repository.IFilmeRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.metamodel.SingularAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +40,24 @@ public class FilmeService {
         filme.setDuracaoMinutos(request.ducaracaoMinutos());
 
         return toResponse(filmeRepository.save(filme));
+    }
+
+    public FilmeResponse atualizarFilme(UUID id, FilmeRequest filmeRequest) {
+        Filme filme = filmeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nenhum filme encontrado!"));
+        filme.setTitulo(filmeRequest.titulo());
+        filme.setDescricao(filmeRequest.descricao());
+        filme.setUrlPostar(filmeRequest.urlPoster());
+        filme.setGenero(filmeRequest.genero());
+        filme.setDuracaoMinutos(filmeRequest.ducaracaoMinutos());
+        return toResponse(filmeRepository.save(filme));
+    }
+
+    public void deletarFilme(UUID id){
+        Filme filme = filmeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nenhum filme encontrado!"));
+
+        filmeRepository.delete(filme);
     }
 
 
