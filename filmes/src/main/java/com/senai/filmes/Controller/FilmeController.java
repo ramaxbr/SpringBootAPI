@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Parameter;
@@ -41,6 +42,7 @@ public class FilmeController {
         }
 
         @PostMapping
+        @PreAuthorize("hasRole('ADMIN')")
         @Operation(summary = "Criar filmes", description = "Cadastrar um novo filme.")
     public ResponseEntity<FilmeResponse> criarFilme(@RequestBody FilmeRequest filmerequest){
             return new ResponseEntity<>(filmeService.cadastrarFilme(filmerequest), HttpStatus.CREATED);
@@ -48,12 +50,14 @@ public class FilmeController {
 
 
         @PutMapping("/{id}")
+        @PreAuthorize("hasRole('ADMIN')")
         @Operation(summary = "Atualizar filme", description = "Atualizar os dados de um filme")
         public ResponseEntity<FilmeResponse> atualizar(@PathVariable UUID id, @RequestBody FilmeRequest filmeRequest){
             return new ResponseEntity<>(filmeService.atualizarFilme(id, filmeRequest), HttpStatus.OK);
         }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Deletar filme", description = "Deletar filme")
     public ResponseEntity<FilmeResponse> deletar(@PathVariable UUID id) {
         filmeService.deletarFilme(id);

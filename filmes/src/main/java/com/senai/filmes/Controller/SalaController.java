@@ -11,6 +11,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,9 @@ public class SalaController {
         return new ResponseEntity<>(salaService.listarSalaPorId(id), HttpStatus.OK);
     }
 
+    //Criar Sala
     @PostMapping
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Criar sala", description = "Retorna a criação de uma sala no sistema COM GERAÇÃO DE ASSENTOS AUTOMÁTICOS")
     public ResponseEntity<SalaResponse> criarSala(@RequestBody SalaRequest salaRequest){
         return new ResponseEntity<>(salaService.cadastrarSala(salaRequest), HttpStatus.CREATED);
@@ -53,6 +55,7 @@ public class SalaController {
     //Deletar Sala
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Deletar sala", description = "deleta os dados de uma sala por completo -> Somente ADMIN")
     public ResponseEntity<SalaResponse> deletar(@PathVariable UUID id){
         salaService.deletar(id);

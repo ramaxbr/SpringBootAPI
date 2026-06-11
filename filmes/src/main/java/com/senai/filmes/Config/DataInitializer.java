@@ -11,7 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DataInitializer implements CommandLineRunner {
     @Autowired
     private IUsuarioRepository usuarioRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Lê do application.properties (com valor padrão para desenvolvimento)
     //@Value("${admin.email:admin@cinema.com}")
