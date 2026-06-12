@@ -32,6 +32,7 @@ public class SalaService {
     }
 
     public List<SalaResponse> listarTodos(){
+
         return salaRepository.findAll().stream().map(this::toResponse).toList();
     }
 
