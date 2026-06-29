@@ -1,0 +1,29 @@
+# Controle de versão — não precisa estar na imagem
+.git
+.gitignore
+
+# Arquivos de build local — o Docker faz seu próprio build
+target/
+*.class
+
+# Variáveis de ambiente — NUNCA incluir na imagem!
+.env
+.env.*
+*.env
+
+# Configurações de orquestração local
+docker-compose*.yml
+
+# Arquivos da IDE
+.idea/
+*.iml
+.vscode/
+
+# Documentação e outros
+*.md
+README*
+HELP.md
+
+# Logs locais
+*.log
+logs/

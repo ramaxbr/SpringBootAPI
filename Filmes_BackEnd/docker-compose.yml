@@ -1,0 +1,59 @@
+services:
+
+  # ── Serviço 1: A API Spring Boot ─────────────────────────────────
+  app:
+    # build: . = constrói a imagem usando o Dockerfile da pasta atual
+    build: .
+    container_name: cinema-api
+
+    # ports: mapeia porta do host:porta do container
+    # 8080:8080 = acesse localhost:8080 para chegar no container
+    ports:
+      - "8080:8080"
+
+    # env_file: carrega TODAS as variáveis do .env para dentro do container
+    # (PGHOST, PGUSER, JWT_SECRET, AWS_*, S3_BUCKET_NAME etc.)
+    # O application.properties lê essas variáveis com ${PGHOST} etc.
+    env_file:
+      - .env
+
+    # depends_on: garante que o banco sobe ANTES da API
+    # condition: service_healthy = aguarda o healthcheck do banco passar
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ── Serviço 2: PostgreSQL ─────────────────────────────────────────
+  db:
+    # Usa imagem oficial do PostgreSQL (alpine = versão leve)
+    image: postgres:15-alpine
+    container_name: cinema-db
+
+    # Variáveis que o PostgreSQL usa para criar o banco na primeira execução
+    environment:
+      POSTGRES_DB: cinemadatabase
+      POSTGRES_USER: awsrafhaeluser
+      POSTGRES_PASSWORD: Senai134$
+
+    # Expõe a porta do banco APENAS localmente (para acessar via DBeaver/pgAdmin)
+    # Em produção na AWS, o banco NUNCA tem porta exposta
+    ports:
+      - "5432:5432"
+
+    # healthcheck: verifica se o banco está pronto para receber conexões
+    # pg_isready = comando nativo do PostgreSQL para checar disponibilidade
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U awsrafhaeluser -d cinemadatabase"]
+      interval: 10s    # verifica a cada 10 segundos
+      timeout: 5s      # aguarda até 5 segundos por resposta
+      retries: 5       # tenta 5 vezes antes de marcar como falho
+      start_period: 5s # aguarda 5s antes de começar a verificar
+
+    # volumes: persiste os dados do banco entre reinicializações
+    # Sem isso, os dados são perdidos quando o container para
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+# Define o volume nomeado (gerenciado pelo Docker)
+volumes:
+  postgres_data:
